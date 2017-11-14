@@ -1,19 +1,19 @@
 //
-//  Box.swift
+//  Sphere.swift
 //  clintosarkit
 //
-//  Created by Clinton on 2017-11-13.
+//  Created by Clinton on 2017-11-14.
 //  Copyright © 2017 Clinton. All rights reserved.
 //
 
 import Foundation
 import ARKit
 
-class Box: SCNNode {
+class Sphere: SCNNode {
     
-    init(vector: SCNVector3) {
+    init(_ vector: SCNVector3) {
         super.init()
-        geometry = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+        geometry = SCNSphere(radius: 0.05)
         position = vector
         physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         physicsBody?.mass = 2.0

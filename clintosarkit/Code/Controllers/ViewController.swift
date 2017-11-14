@@ -10,26 +10,25 @@ import UIKit
 import ARKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var sceneView: ARSCNView!
     var lightNode: SCNNode = SCNNode()
     var planes: [UUID : Plane] = [:]
-    var boxes: Set<SCNNode> = Set<SCNNode>()
+    var objects: Set<SCNNode> = Set<SCNNode>()
     var bottomPlane: SCNNode!
-    var settings: Settings!
-    var sessionConfiguration: ARWorldTrackingConfiguration!
+    var settings: Settings = Settings()
+    var sessionConfiguration: ARWorldTrackingConfiguration = ARWorldTrackingConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeScene()
-        addTapGestureRecognizer()
-        addLongPressGestureRecognizer()
     }
-
+    
     // initialize the configuration for the scene view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // uses the settings object to update the scene settings
         if settings.displayWorldOrigin && settings.displayFeaturePoints {
             sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
         } else if settings.displayWorldOrigin {
@@ -60,16 +59,21 @@ extension ViewController {
     
     // fires up the scene
     func initializeScene() {
-        settings = Settings()
-        
-        sessionConfiguration = ARWorldTrackingConfiguration()
         sessionConfiguration.isLightEstimationEnabled = true
         sessionConfiguration.planeDetection = .horizontal
-        
         sceneView.scene = SCNScene()
         sceneView.delegate = self
+        addGestureRecognizers()
         addBottomPlane()
         addLights()
+    }
+    
+    // adds gesture recognizers to the view to perform some fun actions
+    func addGestureRecognizers() {
+        addTapGestureRecognizer()
+        addTwoFingerTapGestureRecognizer()
+        addLongPressGestureRecognizer()
+        addTwoFingerLongPressGestureRecognizer()
     }
     
     // generate the bottom bounds of the world, used for destroying objects that have fallen off
@@ -107,48 +111,61 @@ extension ViewController {
     }
     
     // adds a box that drops onto the plane
-    func insertGeometry(_ hitResult: ARHitTestResult) {
+    func insert(_ hitResult: ARHitTestResult, type: PhysicalObjectType) {
         let insertionOffset = 0.5
         let vector = SCNVector3(hitResult.worldTransform.columns.3.x,
                                 hitResult.worldTransform.columns.3.y + Float(insertionOffset),
                                 hitResult.worldTransform.columns.3.z)
-        let box = Box(vector: vector)
-        boxes.insert(box)
-        addObject(box)
+        
+        var object: SCNNode!
+        if type == .box {
+            object = Box(vector)
+        } else if type == .sphere {
+            object = Sphere(vector)
+        }
+        objects.insert(object)
+        addObject(object)
     }
     
-    func explode(_ hitResult: ARHitTestResult) {
-        // the max distance that the explosion will effect
-        let explosionDistance: Float = 2
+    // applies a force to a box relative to the distance from the epicenter
+    func force(_ hitResult: ARHitTestResult, type: ForceType) {
+        // the max distance that the force will effect
+        let forceDistance: Float = 2
         
-        // the point of the explostion
-        let explosionOffset: Float = 0.5
-        let explosionPoint = SCNVector3(hitResult.worldTransform.columns.3.x,
-                                         hitResult.worldTransform.columns.3.y + explosionOffset,
-                                         hitResult.worldTransform.columns.3.z)
+        // the point of the force
+        let forceOffset: Float = 0.5
+        let forcePoint = SCNVector3(hitResult.worldTransform.columns.3.x,
+                                    hitResult.worldTransform.columns.3.y + forceOffset,
+                                    hitResult.worldTransform.columns.3.z)
         
-        for box in boxes {
-            // the distance vector between the box and the explosion
-            var distanceVector = SCNVector3(box.worldPosition.x - explosionPoint.x,
-                                      box.worldPosition.y - explosionPoint.y,
-                                      box.worldPosition.z - explosionPoint.z)
+        for object in objects {
+            // the distance vector between the box and the force
+            var distanceVector = SCNVector3()
+            if type == .explode {
+                distanceVector = SCNVector3(object.worldPosition.x - forcePoint.x,
+                                            object.worldPosition.y - forcePoint.y,
+                                            object.worldPosition.z - forcePoint.z)
+            } else if type == .vacuum {
+                distanceVector = SCNVector3(forcePoint.x - object.worldPosition.x,
+                                            forcePoint.y - object.worldPosition.y,
+                                            forcePoint.z - object.worldPosition.z)
+            }
             
-            // the length between the origin of the explosion and the box
+            // the length between the origin of the force and the object
             let distance = sqrt(distanceVector.x * distanceVector.x
                 + distanceVector.y * distanceVector.y
                 + distanceVector.z * distanceVector.z)
-        
-            // the explosive power for the box
-            let explosionPower = max(0, (explosionDistance - distance))
-//            explosionPower = explosionPower * explosionPower * 2
             
-            // scale the explosion power in each direction
-            distanceVector.x = (distanceVector.x / distance) * explosionPower;
-            distanceVector.y = (distanceVector.y / distance) * explosionPower;
-            distanceVector.z = (distanceVector.z / distance) * explosionPower;
+            // the force on the object
+            let force = max(0, (forceDistance - distance))
             
-            // applies the explosion to the box
-            box.physicsBody?.applyForce(distanceVector, asImpulse: true)
+            // scale the force in each direction
+            distanceVector.x = (distanceVector.x / distance) * force;
+            distanceVector.y = (distanceVector.y / distance) * force;
+            distanceVector.z = (distanceVector.z / distance) * force;
+            
+            // applies the force to the object
+            object.physicsBody?.applyForce(distanceVector, asImpulse: true)
         }
     }
 }
@@ -172,7 +189,26 @@ extension ViewController {
         let hitResults = sceneView.hitTest(tapLocation, types: .existingPlaneUsingExtent)
         
         if let hitResult = hitResults.first {
-            insertGeometry(hitResult)
+            insert(hitResult, type: .box)
+        }
+    }
+    
+    // add a two finger tap gesture
+    func addTwoFingerTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTwoFingerTap(withGestureRecognizer:)))
+        tap.numberOfTouchesRequired = 2
+        if let _ = sceneView {
+            sceneView.addGestureRecognizer(tap)
+        }
+    }
+    
+    // if a user taps on a plane with two fingers, drops a new sphere onto it!
+    @objc func didTwoFingerTap(withGestureRecognizer recognizer: UIGestureRecognizer) {
+        let tapLocation = recognizer.location(in: sceneView)
+        let hitResults = sceneView.hitTest(tapLocation, types: .existingPlaneUsingExtent)
+        
+        if let hitResult = hitResults.first {
+            insert(hitResult, type: .sphere)
         }
     }
     
@@ -184,7 +220,7 @@ extension ViewController {
         }
     }
     
-    // causes an explosion
+    // if a user presses on a location, forces objects away
     @objc func didPress(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
         if recognizer.state == .began {
@@ -194,63 +230,77 @@ extension ViewController {
         let pressLocation = recognizer.location(in: sceneView)
         let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
         if let hitResult = hitResults.first {
-            explode(hitResult)
+            force(hitResult, type: .explode)
+        }
+    }
+    
+    // adds a two finger long press gesture
+    func addTwoFingerLongPressGestureRecognizer() {
+        let press = UILongPressGestureRecognizer(target: self, action: #selector(didTwoFingerPress(withGestureRecognizer:)))
+        press.numberOfTouchesRequired = 2
+        if let _ = sceneView {
+            sceneView.addGestureRecognizer(press)
+        }
+    }
+    
+    // if a user presses on a location with two fingers, forces objects towards the location
+    @objc func didTwoFingerPress(withGestureRecognizer recognizer: UIGestureRecognizer) {
+        
+        if recognizer.state == .began {
+            return
+        }
+        
+        let pressLocation = recognizer.location(in: sceneView)
+        let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
+        if let hitResult = hitResults.first {
+            force(hitResult, type: .vacuum)
         }
     }
 }
 
 // MARK: - Scene View Delegate Methods
+
+extension ViewController : ARSCNViewDelegate {
     
-    extension ViewController : ARSCNViewDelegate {
-        
-        // this is called every time ARK kit detects a new plane
-        func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-            if let planeAnchor = anchor as? ARPlaneAnchor {
-                let plane = Plane(anchor: planeAnchor)
-                node.addChildNode(plane)
-                planes[planeAnchor.identifier] = plane
-            }
+    // this is called every time ARK kit detects a new plane
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        if let planeAnchor = anchor as? ARPlaneAnchor {
+            let plane = Plane(anchor: planeAnchor)
+            node.addChildNode(plane)
+            planes[planeAnchor.identifier] = plane
         }
-        
-        // update existing planes
-        func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-            guard let planeAnchor = anchor as? ARPlaneAnchor else {
-                return
-            }
-            
-            if let plane = planes[planeAnchor.identifier] {
-                plane.update(anchor: planeAnchor)
-            }
-        }
-        
-        // removes planes that no longer exist
-        func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
-            guard let planeAnchor = anchor as? ARPlaneAnchor else {
-                return
-            }
-            
-            if let _ = planes[planeAnchor.identifier] {
-                planes.removeValue(forKey: planeAnchor.identifier)
-            }
-        }
-        
-        func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-            if let light = sceneView.session.currentFrame?.lightEstimate, let _ = lightNode.light {
-                lightNode.light?.intensity = light.ambientIntensity
-            }
-        }
-//        - (void)renderer:(id <SCNSceneRenderer>)renderer updateAtTime:(NSTimeInterval)time {
-//        ARLightEstimate *estimate = self.sceneView.session.currentFrame.lightEstimate;
-//        if (!estimate) {
-//        return;
-//        }
-//        // TODO: Put this on the screen
-//        NSLog(@"light estimate: %f", estimate.ambientIntensity);
-//        // Here you can now change the .intensity property of your lights
-//        // so they respond to the real world environment
-//        }
     }
     
+    // update existing planes
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        guard let planeAnchor = anchor as? ARPlaneAnchor else {
+            return
+        }
+        
+        if let plane = planes[planeAnchor.identifier] {
+            plane.update(anchor: planeAnchor)
+        }
+    }
+    
+    // removes planes that no longer exist
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        guard let planeAnchor = anchor as? ARPlaneAnchor else {
+            return
+        }
+        
+        if let _ = planes[planeAnchor.identifier] {
+            planes.removeValue(forKey: planeAnchor.identifier)
+        }
+    }
+    
+    // updates the light of the scene based on dynamic light changes
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        if let light = sceneView.session.currentFrame?.lightEstimate, let _ = lightNode.light {
+            lightNode.light?.intensity = light.ambientIntensity
+        }
+    }
+}
+
 // MARK: - Contact Delegate Methods
 
 extension ViewController: SCNPhysicsContactDelegate {
@@ -261,10 +311,10 @@ extension ViewController: SCNPhysicsContactDelegate {
         
         if contact.nodeA.isEqual(bottomPlane) || contact.nodeB.isEqual(bottomPlane) {
             if contact.nodeA.isEqual(bottomPlane) {
-                boxes.remove(contact.nodeB)
+                objects.remove(contact.nodeB)
                 contact.nodeB.removeFromParentNode()
             } else if contact.nodeB.isEqual(bottomPlane) {
-                boxes.remove(contact.nodeA)
+                objects.remove(contact.nodeA)
                 contact.nodeA.removeFromParentNode()
             }
         }
@@ -275,6 +325,7 @@ extension ViewController: SCNPhysicsContactDelegate {
 
 extension ViewController {
     
+    // segue for options menu
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "optionsSegue" {
             if let nav = segue.destination as? UINavigationController, let vc = nav.topViewController as? OptionsViewController {
@@ -284,6 +335,7 @@ extension ViewController {
         }
     }
     
+    // when the options button is selected, performs the options segue
     @IBAction func didSelectOptionsButton(_ sender: Any) {
         performSegue(withIdentifier: "optionsSegue", sender: self)
     }

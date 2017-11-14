@@ -33,7 +33,7 @@ class Plane: SCNNode {
         
         // set the material the a grid
         let material = SCNMaterial()
-        let img = UIImage(named: "tron_grid")
+        let img = UIImage(named: "grid")
         material.diffuse.contents = img
         planeGeometry.materials = [material]
     
