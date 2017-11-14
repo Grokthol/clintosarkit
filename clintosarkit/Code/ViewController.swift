@@ -12,7 +12,7 @@ import ARKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var sceneView: ARSCNView!
-    var light: SCNLight = SCNLight()
+    var lightNode: SCNNode = SCNNode()
     var planes: [UUID : Plane] = [:]
     var boxes: Set<SCNNode> = Set<SCNNode>()
     var bottomPlane: SCNNode!
@@ -38,6 +38,10 @@ class ViewController: UIViewController {
             sceneView.debugOptions = ARSCNDebugOptions.showFeaturePoints
         }
         sceneView.showsStatistics = settings.displayStatistics
+        sceneView.autoenablesDefaultLighting = settings.enableDefaultLighting
+        if settings.enableDefaultLighting, let _ = lightNode.light {
+            removeObject(lightNode)
+        }
         
         sceneView.session.run(sessionConfiguration, options: [.resetTracking, .removeExistingAnchors])
     }
@@ -84,10 +88,9 @@ extension ViewController {
     
     // adds an ambient light to the scene
     func addLights() {
-        sceneView.autoenablesDefaultLighting = false
+        let light = SCNLight()
         light.type = .omni
-    
-        let lightNode = SCNNode()
+        lightNode = SCNNode()
         lightNode.light = light
         lightNode.position = SCNVector3(0,0,0)
         addObject(lightNode)
@@ -96,6 +99,11 @@ extension ViewController {
     // adds an object to the scene
     func addObject(_ object: SCNNode) {
         sceneView.scene.rootNode.addChildNode(object)
+    }
+    
+    // removes an object from the scene
+    func removeObject(_ object: SCNNode) {
+        object.removeFromParentNode()
     }
     
     // adds a box that drops onto the plane
@@ -227,8 +235,8 @@ extension ViewController {
         }
         
         func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-            if let light = sceneView.session.currentFrame?.lightEstimate {
-                self.light.intensity = light.ambientIntensity
+            if let light = sceneView.session.currentFrame?.lightEstimate, let _ = lightNode.light {
+                lightNode.light?.intensity = light.ambientIntensity
             }
         }
 //        - (void)renderer:(id <SCNSceneRenderer>)renderer updateAtTime:(NSTimeInterval)time {

@@ -20,6 +20,7 @@ class OptionsViewController: UITableViewController {
     @IBOutlet weak var originSwitch: UISwitch!
     @IBOutlet weak var pointSwitch: UISwitch!
     @IBOutlet weak var statisticsSwitch: UISwitch!
+    @IBOutlet weak var lightingSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,7 @@ class OptionsViewController: UITableViewController {
             originSwitch.isOn = settings.displayWorldOrigin
             pointSwitch.isOn = settings.displayFeaturePoints
             statisticsSwitch.isOn = settings.displayStatistics
+            lightingSwitch.isOn = settings.enableDefaultLighting
         }
     }
 }
@@ -43,6 +45,8 @@ extension OptionsViewController {
             settings?.displayFeaturePoints = originSwitch.isOn
         } else if sender.isEqual(statisticsSwitch) {
             settings?.displayStatistics = statisticsSwitch.isOn
+        } else if sender.isEqual(lightingSwitch) {
+            settings?.enableDefaultLighting = lightingSwitch.isOn
         }
         delegate?.modifiedSettings(settings)
     }

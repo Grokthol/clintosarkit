@@ -158,6 +158,35 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="g2m-TY-eRU" userLabel="Lighting">
+                                        <rect key="frame" x="0.0" y="160" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g2m-TY-eRU" id="jtu-QP-xp4">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uPz-mM-fGh">
+                                                    <rect key="frame" x="309" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="toggled:" destination="0G4-Bu-GEI" eventType="valueChanged" id="l5T-eC-GJM"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Default Lighting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NvD-JP-U8p">
+                                                    <rect key="frame" x="16" y="12" width="285" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="uPz-mM-fGh" firstAttribute="leading" secondItem="NvD-JP-U8p" secondAttribute="trailing" constant="8" id="8Vl-SK-M6M"/>
+                                                <constraint firstItem="NvD-JP-U8p" firstAttribute="leading" secondItem="jtu-QP-xp4" secondAttribute="leadingMargin" id="Piw-Pm-apT"/>
+                                                <constraint firstItem="NvD-JP-U8p" firstAttribute="centerY" secondItem="jtu-QP-xp4" secondAttribute="centerY" id="d64-Bw-mNd"/>
+                                                <constraint firstItem="uPz-mM-fGh" firstAttribute="centerY" secondItem="jtu-QP-xp4" secondAttribute="centerY" id="rHa-B0-k71"/>
+                                                <constraint firstAttribute="trailing" secondItem="uPz-mM-fGh" secondAttribute="trailing" constant="17" id="wRD-mh-n4I"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -174,6 +203,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="lightingSwitch" destination="uPz-mM-fGh" id="rDl-qV-HQj"/>
                         <outlet property="originSwitch" destination="Tcf-fk-FQD" id="cHO-5P-LtZ"/>
                         <outlet property="pointSwitch" destination="QvE-Dg-BOY" id="2jO-Rf-AqF"/>
                         <outlet property="statisticsSwitch" destination="K3i-kA-euP" id="ll4-4P-S3q"/>

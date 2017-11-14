@@ -12,4 +12,5 @@ class Settings {
     var displayWorldOrigin: Bool = false
     var displayFeaturePoints: Bool = false
     var displayStatistics: Bool = false
+    var enableDefaultLighting: Bool = false
 }
