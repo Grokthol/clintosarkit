@@ -17,16 +17,21 @@ class Plane: SCNNode {
     init(anchor: ARPlaneAnchor) {
         super.init()
         self.anchor = anchor
+        
+        // create the plane geometry
         let planeHeight: CGFloat = 0.001
         planeGeometry = SCNBox(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z), length: planeHeight, chamferRadius: 0)
-//        planeGeometry = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
         
         let planeNode = SCNNode(geometry: planeGeometry)
-//        planeNode.position = SCNVector3Make(0, Float(-planeHeight / 2.0), 0);
+        
+        // center it
         planeNode.position = SCNVector3(anchor.center.x, 0, anchor.center.z)
+        
+        // rotate it
         planeNode.transform = SCNMatrix4MakeRotation(-.pi / 2.0, 1.0, 0.0, 0.0)
         planeNode.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: [:]))
         
+        // set the material the a grid
         let material = SCNMaterial()
         let img = UIImage(named: "tron_grid")
         material.diffuse.contents = img
@@ -44,6 +49,7 @@ class Plane: SCNNode {
 
 extension Plane {
     
+    // updates the note to have the new position
     func update(anchor: ARPlaneAnchor) {
         planeGeometry.width = CGFloat(anchor.extent.x)
         planeGeometry.height = CGFloat(anchor.extent.z)
@@ -55,6 +61,7 @@ extension Plane {
         setTextureScale()
     }
     
+    // textures the plane for its new size
     func setTextureScale() {
         
         if let material = planeGeometry.materials.first {

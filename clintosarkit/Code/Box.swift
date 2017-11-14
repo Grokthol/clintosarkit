@@ -17,6 +17,7 @@ class Box: SCNNode {
         position = vector
         physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         physicsBody?.mass = 2.0
+        physicsBody?.contactTestBitMask = 1
     }
     
     required init?(coder aDecoder: NSCoder) {
