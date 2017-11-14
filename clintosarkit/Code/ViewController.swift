@@ -12,9 +12,12 @@ import ARKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var sceneView: ARSCNView!
+    var light: SCNLight = SCNLight()
     var planes: [UUID : Plane] = [:]
     var boxes: Set<SCNNode> = Set<SCNNode>()
     var bottomPlane: SCNNode!
+    var settings: Settings!
+    var sessionConfiguration: ARWorldTrackingConfiguration!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +29,23 @@ class ViewController: UIViewController {
     // initialize the configuration for the scene view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = .horizontal
-        sceneView.session.run(configuration)
+        
+        if settings.displayWorldOrigin && settings.displayFeaturePoints {
+            sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
+        } else if settings.displayWorldOrigin {
+            sceneView.debugOptions = ARSCNDebugOptions.showWorldOrigin
+        } else if settings.displayFeaturePoints {
+            sceneView.debugOptions = ARSCNDebugOptions.showFeaturePoints
+        }
+        sceneView.showsStatistics = settings.displayStatistics
+        
+        sceneView.session.run(sessionConfiguration, options: [.resetTracking, .removeExistingAnchors])
     }
     
     // pause the scene view
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         sceneView.session.pause()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 }
 
@@ -47,15 +54,22 @@ class ViewController: UIViewController {
 
 extension ViewController {
     
-    // fires up the scene, adds the bottom bounds
+    // fires up the scene
     func initializeScene() {
-        sceneView.scene = SCNScene()
-//        sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
-        sceneView.showsStatistics = true
-        sceneView.autoenablesDefaultLighting = true
-        sceneView.delegate = self
+        settings = Settings()
         
-        // generate the bottom bounds of the world, used for destroying objects that have fallen off
+        sessionConfiguration = ARWorldTrackingConfiguration()
+        sessionConfiguration.isLightEstimationEnabled = true
+        sessionConfiguration.planeDetection = .horizontal
+        
+        sceneView.scene = SCNScene()
+        sceneView.delegate = self
+        addBottomPlane()
+        addLights()
+    }
+    
+    // generate the bottom bounds of the world, used for destroying objects that have fallen off
+    func addBottomPlane() {
         let bottomBox = SCNBox(width: 1000, height: 0.5, length: 1000, chamferRadius: 0)
         let bottomMaterial = SCNMaterial()
         bottomMaterial.diffuse.contents = UIColor.clear
@@ -66,6 +80,17 @@ extension ViewController {
         bottomPlane.physicsBody?.contactTestBitMask = 1
         addObject(bottomPlane)
         sceneView.scene.physicsWorld.contactDelegate = self
+    }
+    
+    // adds an ambient light to the scene
+    func addLights() {
+        sceneView.autoenablesDefaultLighting = false
+        light.type = .omni
+    
+        let lightNode = SCNNode()
+        lightNode.light = light
+        lightNode.position = SCNVector3(0,0,0)
+        addObject(lightNode)
     }
     
     // adds an object to the scene
@@ -106,8 +131,7 @@ extension ViewController {
                 + distanceVector.z * distanceVector.z)
         
             // the explosive power for the box
-            var explosionPower = max(0, (explosionDistance - distance))
-            explosionPower = 1
+            let explosionPower = max(0, (explosionDistance - distance))
 //            explosionPower = explosionPower * explosionPower * 2
             
             // scale the explosion power in each direction
@@ -201,6 +225,22 @@ extension ViewController {
                 planes.removeValue(forKey: planeAnchor.identifier)
             }
         }
+        
+        func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+            if let light = sceneView.session.currentFrame?.lightEstimate {
+                self.light.intensity = light.ambientIntensity
+            }
+        }
+//        - (void)renderer:(id <SCNSceneRenderer>)renderer updateAtTime:(NSTimeInterval)time {
+//        ARLightEstimate *estimate = self.sceneView.session.currentFrame.lightEstimate;
+//        if (!estimate) {
+//        return;
+//        }
+//        // TODO: Put this on the screen
+//        NSLog(@"light estimate: %f", estimate.ambientIntensity);
+//        // Here you can now change the .intensity property of your lights
+//        // so they respond to the real world environment
+//        }
     }
     
 // MARK: - Contact Delegate Methods
@@ -219,6 +259,36 @@ extension ViewController: SCNPhysicsContactDelegate {
                 boxes.remove(contact.nodeA)
                 contact.nodeA.removeFromParentNode()
             }
+        }
+    }
+}
+
+// MARK: - Button Delegate Methods
+
+extension ViewController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "optionsSegue" {
+            if let nav = segue.destination as? UINavigationController, let vc = nav.topViewController as? OptionsViewController {
+                vc.settings = settings
+                vc.delegate = self
+            }
+        }
+    }
+    
+    @IBAction func didSelectOptionsButton(_ sender: Any) {
+        performSegue(withIdentifier: "optionsSegue", sender: self)
+    }
+}
+
+// MARK: - Options Delegate Methods
+
+extension ViewController: OptionsDelegate {
+    
+    // modified delegate settings. updates the debug settings
+    func modifiedSettings(_ settings: Settings?) {
+        if let settings = settings {
+            self.settings = settings
         }
     }
 }
