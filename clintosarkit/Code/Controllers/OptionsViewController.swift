@@ -8,10 +8,12 @@
 
 import UIKit
 
+// a delegate for letting any listeners know when the settings have been changed
 protocol OptionsDelegate: class {
     func modifiedSettings(_ settings: Settings?)
 }
 
+// a class for displaying and modifying settings
 class OptionsViewController: UITableViewController {
     
     var settings: Settings?
@@ -25,6 +27,7 @@ class OptionsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // initializes the view to match the settings
         if let settings = settings {
             originSwitch.isOn = settings.displayWorldOrigin
             pointSwitch.isOn = settings.displayFeaturePoints
@@ -34,10 +37,12 @@ class OptionsViewController: UITableViewController {
     }
 }
 
+
 // MARK: - Actions
 
 extension OptionsViewController {
     
+    // if a setting switch was toggled, sets the appropriate settings value
     @IBAction func toggled(_ sender: UISwitch) {
         if sender.isEqual(originSwitch) {
             settings?.displayWorldOrigin = originSwitch.isOn
@@ -51,6 +56,7 @@ extension OptionsViewController {
         delegate?.modifiedSettings(settings)
     }
     
+    // dismisses the view when the user is done
     @IBAction func didSelectDone(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

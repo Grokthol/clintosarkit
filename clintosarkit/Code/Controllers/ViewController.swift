@@ -9,8 +9,10 @@
 import UIKit
 import ARKit
 
+// main view controller
 class ViewController: UIViewController {
     
+    // misc variables
     @IBOutlet weak var sceneView: ARSCNView!
     var lightNode: SCNNode = SCNNode()
     var planes: [UUID : Plane] = [:]
@@ -19,6 +21,16 @@ class ViewController: UIViewController {
     var settings: Settings = Settings()
     var sessionConfiguration: ARWorldTrackingConfiguration = ARWorldTrackingConfiguration()
     
+    // material selection variables
+    let materialOptions = [MaterialType.none, MaterialType.copper, MaterialType.iron,
+                           MaterialType.limestone, MaterialType.sandstone, MaterialType.rubber,
+                           MaterialType.plastic]
+    var selectedObjectMaterial: MaterialType = .none
+    var selectedPlaneMaterial: MaterialType = .none
+    var pickerMode: PickerMode = .object
+    @IBOutlet weak var picker: UIPickerView!
+    @IBOutlet weak var pickerView: UIView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeScene()
@@ -55,7 +67,7 @@ class ViewController: UIViewController {
 
 // MARK: - Scene Methods
 
-extension ViewController {
+private extension ViewController {
     
     // fires up the scene
     func initializeScene() {
@@ -68,12 +80,14 @@ extension ViewController {
         addLights()
     }
     
-    // adds gesture recognizers to the view to perform some fun actions
-    func addGestureRecognizers() {
-        addTapGestureRecognizer()
-        addTwoFingerTapGestureRecognizer()
-        addLongPressGestureRecognizer()
-        addTwoFingerLongPressGestureRecognizer()
+    // adds an object to the scene
+    func addObject(_ object: SCNNode) {
+        sceneView.scene.rootNode.addChildNode(object)
+    }
+    
+    // removes an object from the scene
+    func removeObject(_ object: SCNNode) {
+        object.removeFromParentNode()
     }
     
     // generate the bottom bounds of the world, used for destroying objects that have fallen off
@@ -100,14 +114,12 @@ extension ViewController {
         addObject(lightNode)
     }
     
-    // adds an object to the scene
-    func addObject(_ object: SCNNode) {
-        sceneView.scene.rootNode.addChildNode(object)
-    }
-    
-    // removes an object from the scene
-    func removeObject(_ object: SCNNode) {
-        object.removeFromParentNode()
+    // adds gesture recognizers to the view to perform some fun actions
+    func addGestureRecognizers() {
+        addTapGestureRecognizer()
+        addTwoFingerTapGestureRecognizer()
+        addLongPressGestureRecognizer()
+        addTwoFingerLongPressGestureRecognizer()
     }
     
     // adds a box that drops onto the plane
@@ -119,9 +131,9 @@ extension ViewController {
         
         var object: SCNNode!
         if type == .box {
-            object = Box(vector)
+            object = Box(vector, material: selectedObjectMaterial)
         } else if type == .sphere {
-            object = Sphere(vector)
+            object = Sphere(vector, material: selectedObjectMaterial)
         }
         objects.insert(object)
         addObject(object)
@@ -265,7 +277,7 @@ extension ViewController : ARSCNViewDelegate {
     // this is called every time ARK kit detects a new plane
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if let planeAnchor = anchor as? ARPlaneAnchor {
-            let plane = Plane(anchor: planeAnchor)
+            let plane = Plane(planeAnchor, material: selectedPlaneMaterial)
             node.addChildNode(plane)
             planes[planeAnchor.identifier] = plane
         }
@@ -301,12 +313,12 @@ extension ViewController : ARSCNViewDelegate {
     }
 }
 
+
 // MARK: - Contact Delegate Methods
 
 extension ViewController: SCNPhysicsContactDelegate {
     
-    // physics contact handler
-    // essentially only used if a cube hits the bottom bounds of the world
+    // physics contact handler used if a cube hits the bottom bounds of the world
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         
         if contact.nodeA.isEqual(bottomPlane) || contact.nodeB.isEqual(bottomPlane) {
@@ -320,6 +332,7 @@ extension ViewController: SCNPhysicsContactDelegate {
         }
     }
 }
+
 
 // MARK: - Button Delegate Methods
 
@@ -339,7 +352,27 @@ extension ViewController {
     @IBAction func didSelectOptionsButton(_ sender: Any) {
         performSegue(withIdentifier: "optionsSegue", sender: self)
     }
+    
+    // when the objects button is selected, display the material selection menu
+    @IBAction func didSelectObjectsButton(_ sender: Any) {
+        pickerMode = .object
+        picker.selectRow(materialOptions.index(of: selectedObjectMaterial) ?? 0, inComponent: 0, animated: false)
+        pickerView.isHidden = false
+    }
+    
+    // when the planes button is selected, display the material selection menu
+    @IBAction func didSelectPlanesButton(_ sender: Any) {
+        pickerMode = .plane
+        picker.selectRow(materialOptions.index(of: selectedPlaneMaterial) ?? 0, inComponent: 0, animated: false)
+        pickerView.isHidden = false
+    }
+    
+    // when the picker done button is selected, hides the picker view
+    @IBAction func pickerDoneButtonSelected(_ sender: Any) {
+        pickerView.isHidden = true
+    }
 }
+
 
 // MARK: - Options Delegate Methods
 
@@ -349,6 +382,38 @@ extension ViewController: OptionsDelegate {
     func modifiedSettings(_ settings: Settings?) {
         if let settings = settings {
             self.settings = settings
+        }
+    }
+}
+
+
+// MARK: - Picker Delegate Methods
+extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return materialOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return materialOptions[row].rawValue
+    }
+    
+    // when the picker selects a material, sets the appropriate material
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerMode == .object {
+            selectedObjectMaterial = materialOptions[row]
+        } else if pickerMode == .plane {
+            selectedPlaneMaterial = materialOptions[row]
+            
+            // if the plane material was changed, change all of the existing material as well
+            for plane in planes.values {
+                plane.planeGeometry?.materials = [Texture(selectedPlaneMaterial)]
+                plane.setTextureScale()
+            }
         }
     }
 }

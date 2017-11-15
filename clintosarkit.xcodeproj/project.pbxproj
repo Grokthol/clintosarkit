@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB247B091FBC991400B8957D /* PickerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB247B081FBC991400B8957D /* PickerMode.swift */; };
 		AB39FE541FB9E60C00CB6F9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39FE531FB9E60C00CB6F9C /* AppDelegate.swift */; };
 		AB39FE561FB9E60C00CB6F9C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39FE551FB9E60C00CB6F9C /* ViewController.swift */; };
 		AB39FE591FB9E60C00CB6F9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB39FE571FB9E60C00CB6F9C /* Main.storyboard */; };
@@ -21,6 +22,32 @@
 		ABCAF1E51FBBA33700C8917F /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCAF1E41FBBA33700C8917F /* Sphere.swift */; };
 		ABCAF1E71FBBA45D00C8917F /* PhysicalObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCAF1E61FBBA45D00C8917F /* PhysicalObjectType.swift */; };
 		ABCAF1E91FBBA71700C8917F /* ForceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCAF1E81FBBA71700C8917F /* ForceType.swift */; };
+		ABCAF1F71FBC888100C8917F /* MaterialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCAF1F61FBC888100C8917F /* MaterialType.swift */; };
+		ABCAF1FD1FBC8BDC00C8917F /* copper-metal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF1F91FBC8BDB00C8917F /* copper-metal.png */; };
+		ABCAF1FE1FBC8BDC00C8917F /* copper-albedo.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF1FA1FBC8BDB00C8917F /* copper-albedo.png */; };
+		ABCAF1FF1FBC8BDC00C8917F /* coppper-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF1FB1FBC8BDB00C8917F /* coppper-roughness.png */; };
+		ABCAF2001FBC8BDC00C8917F /* copper-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF1FC1FBC8BDC00C8917F /* copper-normal.png */; };
+		ABCAF2061FBC8C0A00C8917F /* iron-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2021FBC8C0900C8917F /* iron-roughness.png */; };
+		ABCAF2071FBC8C0A00C8917F /* iron-albedo.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2031FBC8C0900C8917F /* iron-albedo.png */; };
+		ABCAF2081FBC8C0A00C8917F /* iron-metallic.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2041FBC8C0A00C8917F /* iron-metallic.png */; };
+		ABCAF2091FBC8C0A00C8917F /* iron-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2051FBC8C0A00C8917F /* iron-normal.png */; };
+		ABCAF20F1FBC8C5C00C8917F /* limestone-albedo.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF20B1FBC8C5900C8917F /* limestone-albedo.png */; };
+		ABCAF2101FBC8C5C00C8917F /* limestone-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF20C1FBC8C5B00C8917F /* limestone-normal.png */; };
+		ABCAF2111FBC8C5C00C8917F /* limestone-metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF20D1FBC8C5B00C8917F /* limestone-metalness.png */; };
+		ABCAF2121FBC8C5C00C8917F /* limestone-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF20E1FBC8C5B00C8917F /* limestone-roughness.png */; };
+		ABCAF2141FBC8C7400C8917F /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCAF2131FBC8C7400C8917F /* Texture.swift */; };
+		ABCAF21A1FBC8F5900C8917F /* plastic-metal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2161FBC8F5900C8917F /* plastic-metal.png */; };
+		ABCAF21B1FBC8F5900C8917F /* plastic-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2171FBC8F5900C8917F /* plastic-normal.png */; };
+		ABCAF21C1FBC8F5900C8917F /* plastic-albedo.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2181FBC8F5900C8917F /* plastic-albedo.png */; };
+		ABCAF21D1FBC8F5900C8917F /* plastic-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2191FBC8F5900C8917F /* plastic-roughness.png */; };
+		ABCAF2231FBC8F8900C8917F /* rubber-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF21F1FBC8F8800C8917F /* rubber-roughness.png */; };
+		ABCAF2241FBC8F8900C8917F /* rubber-metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2201FBC8F8800C8917F /* rubber-metalness.png */; };
+		ABCAF2251FBC8F8900C8917F /* rubber-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2211FBC8F8800C8917F /* rubber-normal.png */; };
+		ABCAF2261FBC8F8900C8917F /* rubber-albedo.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2221FBC8F8900C8917F /* rubber-albedo.png */; };
+		ABCAF22C1FBC901100C8917F /* sandstone-albedo.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2281FBC900F00C8917F /* sandstone-albedo.png */; };
+		ABCAF22D1FBC901100C8917F /* sandstone-metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF2291FBC901000C8917F /* sandstone-metalness.png */; };
+		ABCAF22E1FBC901100C8917F /* sandstone-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF22A1FBC901000C8917F /* sandstone-roughness.png */; };
+		ABCAF22F1FBC901100C8917F /* sandstone-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCAF22B1FBC901100C8917F /* sandstone-normal.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB247B081FBC991400B8957D /* PickerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMode.swift; sourceTree = "<group>"; };
 		AB39FE501FB9E60C00CB6F9C /* clintosarkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clintosarkit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB39FE531FB9E60C00CB6F9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB39FE551FB9E60C00CB6F9C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +89,32 @@
 		ABCAF1E41FBBA33700C8917F /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
 		ABCAF1E61FBBA45D00C8917F /* PhysicalObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalObjectType.swift; sourceTree = "<group>"; };
 		ABCAF1E81FBBA71700C8917F /* ForceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceType.swift; sourceTree = "<group>"; };
+		ABCAF1F61FBC888100C8917F /* MaterialType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialType.swift; sourceTree = "<group>"; };
+		ABCAF1F91FBC8BDB00C8917F /* copper-metal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copper-metal.png"; sourceTree = "<group>"; };
+		ABCAF1FA1FBC8BDB00C8917F /* copper-albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copper-albedo.png"; sourceTree = "<group>"; };
+		ABCAF1FB1FBC8BDB00C8917F /* coppper-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coppper-roughness.png"; sourceTree = "<group>"; };
+		ABCAF1FC1FBC8BDC00C8917F /* copper-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copper-normal.png"; sourceTree = "<group>"; };
+		ABCAF2021FBC8C0900C8917F /* iron-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iron-roughness.png"; sourceTree = "<group>"; };
+		ABCAF2031FBC8C0900C8917F /* iron-albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iron-albedo.png"; sourceTree = "<group>"; };
+		ABCAF2041FBC8C0A00C8917F /* iron-metallic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iron-metallic.png"; sourceTree = "<group>"; };
+		ABCAF2051FBC8C0A00C8917F /* iron-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iron-normal.png"; sourceTree = "<group>"; };
+		ABCAF20B1FBC8C5900C8917F /* limestone-albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "limestone-albedo.png"; sourceTree = "<group>"; };
+		ABCAF20C1FBC8C5B00C8917F /* limestone-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "limestone-normal.png"; sourceTree = "<group>"; };
+		ABCAF20D1FBC8C5B00C8917F /* limestone-metalness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "limestone-metalness.png"; sourceTree = "<group>"; };
+		ABCAF20E1FBC8C5B00C8917F /* limestone-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "limestone-roughness.png"; sourceTree = "<group>"; };
+		ABCAF2131FBC8C7400C8917F /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
+		ABCAF2161FBC8F5900C8917F /* plastic-metal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plastic-metal.png"; sourceTree = "<group>"; };
+		ABCAF2171FBC8F5900C8917F /* plastic-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plastic-normal.png"; sourceTree = "<group>"; };
+		ABCAF2181FBC8F5900C8917F /* plastic-albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plastic-albedo.png"; sourceTree = "<group>"; };
+		ABCAF2191FBC8F5900C8917F /* plastic-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plastic-roughness.png"; sourceTree = "<group>"; };
+		ABCAF21F1FBC8F8800C8917F /* rubber-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rubber-roughness.png"; sourceTree = "<group>"; };
+		ABCAF2201FBC8F8800C8917F /* rubber-metalness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rubber-metalness.png"; sourceTree = "<group>"; };
+		ABCAF2211FBC8F8800C8917F /* rubber-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rubber-normal.png"; sourceTree = "<group>"; };
+		ABCAF2221FBC8F8900C8917F /* rubber-albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rubber-albedo.png"; sourceTree = "<group>"; };
+		ABCAF2281FBC900F00C8917F /* sandstone-albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sandstone-albedo.png"; sourceTree = "<group>"; };
+		ABCAF2291FBC901000C8917F /* sandstone-metalness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sandstone-metalness.png"; sourceTree = "<group>"; };
+		ABCAF22A1FBC901000C8917F /* sandstone-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sandstone-roughness.png"; sourceTree = "<group>"; };
+		ABCAF22B1FBC901100C8917F /* sandstone-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sandstone-normal.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +142,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB247B0A1FBCA24900B8957D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AB61CF961FBB5C7500DD8001 /* Settings.swift */,
+				ABCAF2131FBC8C7400C8917F /* Texture.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		AB39FE471FB9E60C00CB6F9C = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +203,7 @@
 		AB39FE811FB9E63C00CB6F9C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				ABCAF1EC1FBC872E00C8917F /* Textures */,
 				AB39FE571FB9E60C00CB6F9C /* Main.storyboard */,
 				AB39FE5C1FB9E60C00CB6F9C /* LaunchScreen.storyboard */,
 			);
@@ -149,11 +213,11 @@
 		AB39FE821FB9E65600CB6F9C /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				AB247B0A1FBCA24900B8957D /* Helpers */,
 				ABCAF1E31FBBA2A000C8917F /* Enums */,
 				ABCAF1E21FBBA29400C8917F /* Controllers */,
 				ABCAF1E01FBBA27B00C8917F /* Objects */,
 				AB39FE531FB9E60C00CB6F9C /* AppDelegate.swift */,
-				AB61CF961FBB5C7500DD8001 /* Settings.swift */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -182,8 +246,89 @@
 			children = (
 				ABCAF1E61FBBA45D00C8917F /* PhysicalObjectType.swift */,
 				ABCAF1E81FBBA71700C8917F /* ForceType.swift */,
+				ABCAF1F61FBC888100C8917F /* MaterialType.swift */,
+				AB247B081FBC991400B8957D /* PickerMode.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		ABCAF1EC1FBC872E00C8917F /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF2271FBC8F8C00C8917F /* sandstone */,
+				ABCAF21E1FBC8F6D00C8917F /* rubber */,
+				ABCAF2151FBC8EF300C8917F /* plastic */,
+				ABCAF20A1FBC8C1700C8917F /* limestone */,
+				ABCAF2011FBC8C0000C8917F /* iron */,
+				ABCAF1F81FBC8BB800C8917F /* copper */,
+			);
+			path = Textures;
+			sourceTree = "<group>";
+		};
+		ABCAF1F81FBC8BB800C8917F /* copper */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF1FA1FBC8BDB00C8917F /* copper-albedo.png */,
+				ABCAF1F91FBC8BDB00C8917F /* copper-metal.png */,
+				ABCAF1FC1FBC8BDC00C8917F /* copper-normal.png */,
+				ABCAF1FB1FBC8BDB00C8917F /* coppper-roughness.png */,
+			);
+			path = copper;
+			sourceTree = "<group>";
+		};
+		ABCAF2011FBC8C0000C8917F /* iron */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF2031FBC8C0900C8917F /* iron-albedo.png */,
+				ABCAF2041FBC8C0A00C8917F /* iron-metallic.png */,
+				ABCAF2051FBC8C0A00C8917F /* iron-normal.png */,
+				ABCAF2021FBC8C0900C8917F /* iron-roughness.png */,
+			);
+			path = iron;
+			sourceTree = "<group>";
+		};
+		ABCAF20A1FBC8C1700C8917F /* limestone */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF20B1FBC8C5900C8917F /* limestone-albedo.png */,
+				ABCAF20D1FBC8C5B00C8917F /* limestone-metalness.png */,
+				ABCAF20C1FBC8C5B00C8917F /* limestone-normal.png */,
+				ABCAF20E1FBC8C5B00C8917F /* limestone-roughness.png */,
+			);
+			path = limestone;
+			sourceTree = "<group>";
+		};
+		ABCAF2151FBC8EF300C8917F /* plastic */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF2181FBC8F5900C8917F /* plastic-albedo.png */,
+				ABCAF2161FBC8F5900C8917F /* plastic-metal.png */,
+				ABCAF2171FBC8F5900C8917F /* plastic-normal.png */,
+				ABCAF2191FBC8F5900C8917F /* plastic-roughness.png */,
+			);
+			path = plastic;
+			sourceTree = "<group>";
+		};
+		ABCAF21E1FBC8F6D00C8917F /* rubber */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF2221FBC8F8900C8917F /* rubber-albedo.png */,
+				ABCAF2201FBC8F8800C8917F /* rubber-metalness.png */,
+				ABCAF2211FBC8F8800C8917F /* rubber-normal.png */,
+				ABCAF21F1FBC8F8800C8917F /* rubber-roughness.png */,
+			);
+			path = rubber;
+			sourceTree = "<group>";
+		};
+		ABCAF2271FBC8F8C00C8917F /* sandstone */ = {
+			isa = PBXGroup;
+			children = (
+				ABCAF2281FBC900F00C8917F /* sandstone-albedo.png */,
+				ABCAF2291FBC901000C8917F /* sandstone-metalness.png */,
+				ABCAF22B1FBC901100C8917F /* sandstone-normal.png */,
+				ABCAF22A1FBC901000C8917F /* sandstone-roughness.png */,
+			);
+			path = sandstone;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,9 +438,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABCAF2231FBC8F8900C8917F /* rubber-roughness.png in Resources */,
+				ABCAF2061FBC8C0A00C8917F /* iron-roughness.png in Resources */,
+				ABCAF22C1FBC901100C8917F /* sandstone-albedo.png in Resources */,
+				ABCAF22D1FBC901100C8917F /* sandstone-metalness.png in Resources */,
+				ABCAF2101FBC8C5C00C8917F /* limestone-normal.png in Resources */,
+				ABCAF21B1FBC8F5900C8917F /* plastic-normal.png in Resources */,
+				ABCAF22F1FBC901100C8917F /* sandstone-normal.png in Resources */,
+				ABCAF1FF1FBC8BDC00C8917F /* coppper-roughness.png in Resources */,
+				ABCAF2111FBC8C5C00C8917F /* limestone-metalness.png in Resources */,
+				ABCAF2251FBC8F8900C8917F /* rubber-normal.png in Resources */,
+				ABCAF21A1FBC8F5900C8917F /* plastic-metal.png in Resources */,
+				ABCAF21D1FBC8F5900C8917F /* plastic-roughness.png in Resources */,
+				ABCAF2261FBC8F8900C8917F /* rubber-albedo.png in Resources */,
+				ABCAF22E1FBC901100C8917F /* sandstone-roughness.png in Resources */,
+				ABCAF2071FBC8C0A00C8917F /* iron-albedo.png in Resources */,
+				ABCAF20F1FBC8C5C00C8917F /* limestone-albedo.png in Resources */,
+				ABCAF2241FBC8F8900C8917F /* rubber-metalness.png in Resources */,
+				ABCAF1FD1FBC8BDC00C8917F /* copper-metal.png in Resources */,
 				AB39FE5E1FB9E60C00CB6F9C /* LaunchScreen.storyboard in Resources */,
 				AB39FE5B1FB9E60C00CB6F9C /* Assets.xcassets in Resources */,
+				ABCAF2081FBC8C0A00C8917F /* iron-metallic.png in Resources */,
+				ABCAF2121FBC8C5C00C8917F /* limestone-roughness.png in Resources */,
+				ABCAF1FE1FBC8BDC00C8917F /* copper-albedo.png in Resources */,
+				ABCAF2091FBC8C0A00C8917F /* iron-normal.png in Resources */,
+				ABCAF2001FBC8BDC00C8917F /* copper-normal.png in Resources */,
 				AB39FE591FB9E60C00CB6F9C /* Main.storyboard in Resources */,
+				ABCAF21C1FBC8F5900C8917F /* plastic-albedo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,14 +489,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABCAF1F71FBC888100C8917F /* MaterialType.swift in Sources */,
 				AB39FE561FB9E60C00CB6F9C /* ViewController.swift in Sources */,
 				AB39FE8A1FBA174900CB6F9C /* Plane.swift in Sources */,
 				AB61CF951FBB423100DD8001 /* OptionsViewController.swift in Sources */,
 				AB61CF971FBB5C7500DD8001 /* Settings.swift in Sources */,
 				AB39FE8E1FBA288500CB6F9C /* Box.swift in Sources */,
+				ABCAF2141FBC8C7400C8917F /* Texture.swift in Sources */,
 				ABCAF1E51FBBA33700C8917F /* Sphere.swift in Sources */,
 				ABCAF1E91FBBA71700C8917F /* ForceType.swift in Sources */,
 				ABCAF1E71FBBA45D00C8917F /* PhysicalObjectType.swift in Sources */,
+				AB247B091FBC991400B8957D /* PickerMode.swift in Sources */,
 				AB39FE541FB9E60C00CB6F9C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

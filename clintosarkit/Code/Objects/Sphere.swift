@@ -9,15 +9,18 @@
 import Foundation
 import ARKit
 
+// a sphere that can be added to the scene
 class Sphere: SCNNode {
     
-    init(_ vector: SCNVector3) {
+    init(_ vector: SCNVector3, material: MaterialType) {
         super.init()
         geometry = SCNSphere(radius: 0.05)
         position = vector
         physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         physicsBody?.mass = 2.0
         physicsBody?.contactTestBitMask = 1
+        
+        geometry?.materials = [Texture(material)]
     }
     
     required init?(coder aDecoder: NSCoder) {

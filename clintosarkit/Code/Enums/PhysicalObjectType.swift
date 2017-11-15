@@ -6,8 +6,7 @@
 //  Copyright © 2017 Clinton. All rights reserved.
 //
 
-import Foundation
-
+// a physical object type that can be added to the scene
 enum PhysicalObjectType {
     case box
     case sphere

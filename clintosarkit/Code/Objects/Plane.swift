@@ -9,12 +9,13 @@
 import Foundation
 import ARKit
 
+// a plane object, used to drop other objects on
 class Plane: SCNNode {
     
     var anchor: ARPlaneAnchor!
     var planeGeometry: SCNBox!
     
-    init(anchor: ARPlaneAnchor) {
+    init(_ anchor: ARPlaneAnchor, material: MaterialType) {
         super.init()
         self.anchor = anchor
         
@@ -31,11 +32,15 @@ class Plane: SCNNode {
         planeNode.transform = SCNMatrix4MakeRotation(-.pi / 2.0, 1.0, 0.0, 0.0)
         planeNode.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: [:]))
         
-        // set the material the a grid
-        let material = SCNMaterial()
-        let img = UIImage(named: "grid")
-        material.diffuse.contents = img
-        planeGeometry.materials = [material]
+        // set the material of the plane
+        var mat = SCNMaterial()
+        if material == .none {
+            let img = UIImage(named: "grid")
+            mat.diffuse.contents = img
+        } else {
+            mat = Texture(material)
+        }
+        planeGeometry.materials = [mat]
     
         setTextureScale()
         self.addChildNode(planeNode)
