@@ -16,10 +16,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var sceneView: ARSCNView!
     var lightNode: SCNNode = SCNNode()
     var planes: [UUID : Plane] = [:]
-    var objects: Set<SCNNode> = Set<SCNNode>()
+    var objects: Set<PhysicalObject> = Set<PhysicalObject>()
     var bottomPlane: SCNNode!
     var settings: Settings = Settings()
     var sessionConfiguration: ARWorldTrackingConfiguration = ARWorldTrackingConfiguration()
+    @IBOutlet weak var forceSlider: UISlider!
     
     // material selection variables
     let materialOptions = [MaterialType.none, MaterialType.copper, MaterialType.iron,
@@ -30,7 +31,7 @@ class ViewController: UIViewController {
     var pickerMode: PickerMode = .object
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var pickerView: UIView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeScene()
@@ -129,7 +130,7 @@ private extension ViewController {
                                 hitResult.worldTransform.columns.3.y + Float(insertionOffset),
                                 hitResult.worldTransform.columns.3.z)
         
-        var object: SCNNode!
+        var object: PhysicalObject!
         if type == .box {
             object = Box(vector, material: selectedObjectMaterial)
         } else if type == .sphere {
@@ -169,15 +170,20 @@ private extension ViewController {
                 + distanceVector.z * distanceVector.z)
             
             // the force on the object
-            let force = max(0, (forceDistance - distance))
+            var force = max(0, (forceDistance - distance))
+            force = force * forceSlider.value
             
             // scale the force in each direction
             distanceVector.x = (distanceVector.x / distance) * force;
             distanceVector.y = (distanceVector.y / distance) * force;
             distanceVector.z = (distanceVector.z / distance) * force;
             
-            // applies the force to the object
-            object.physicsBody?.applyForce(distanceVector, asImpulse: true)
+            // applies the force to the object, but not at the center so the object will spin!
+            if object.type == .box {
+                object.physicsBody?.applyForce(distanceVector, at: SCNVector3(0.05, 0.05, 0.05), asImpulse: true)
+            } else if object.type == .sphere {
+                object.physicsBody?.applyForce(distanceVector, asImpulse: true)
+            }
         }
     }
 }
@@ -235,14 +241,12 @@ extension ViewController {
     // if a user presses on a location, forces objects away
     @objc func didPress(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
-        if recognizer.state == .began {
-            return
-        }
-        
-        let pressLocation = recognizer.location(in: sceneView)
-        let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
-        if let hitResult = hitResults.first {
-            force(hitResult, type: .explode)
+        if recognizer.state == .ended {
+            let pressLocation = recognizer.location(in: sceneView)
+            let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
+            if let hitResult = hitResults.first {
+                force(hitResult, type: .explode)
+            }
         }
     }
     
@@ -258,14 +262,12 @@ extension ViewController {
     // if a user presses on a location with two fingers, forces objects towards the location
     @objc func didTwoFingerPress(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
-        if recognizer.state == .began {
-            return
-        }
-        
-        let pressLocation = recognizer.location(in: sceneView)
-        let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
-        if let hitResult = hitResults.first {
-            force(hitResult, type: .vacuum)
+        if recognizer.state == .ended {
+            let pressLocation = recognizer.location(in: sceneView)
+            let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
+            if let hitResult = hitResults.first {
+                force(hitResult, type: .vacuum)
+            }
         }
     }
 }
@@ -323,10 +325,10 @@ extension ViewController: SCNPhysicsContactDelegate {
         
         if contact.nodeA.isEqual(bottomPlane) || contact.nodeB.isEqual(bottomPlane) {
             if contact.nodeA.isEqual(bottomPlane) {
-                objects.remove(contact.nodeB)
+                objects.remove(contact.nodeB as! PhysicalObject)
                 contact.nodeB.removeFromParentNode()
             } else if contact.nodeB.isEqual(bottomPlane) {
-                objects.remove(contact.nodeA)
+                objects.remove(contact.nodeA as! PhysicalObject)
                 contact.nodeA.removeFromParentNode()
             }
         }
@@ -411,8 +413,7 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
             
             // if the plane material was changed, change all of the existing material as well
             for plane in planes.values {
-                plane.planeGeometry?.materials = [Texture(selectedPlaneMaterial)]
-                plane.setTextureScale()
+                plane.setMaterial(selectedPlaneMaterial)
             }
         }
     }

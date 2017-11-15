@@ -10,7 +10,7 @@ import Foundation
 import ARKit
 
 // a plane object, used to drop other objects on
-class Plane: SCNNode {
+class Plane: PhysicalObject {
     
     var anchor: ARPlaneAnchor!
     var planeGeometry: SCNBox!
@@ -33,7 +33,7 @@ class Plane: SCNNode {
         planeNode.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: [:]))
         
         // set the material of the plane
-        var mat = SCNMaterial()
+        var mat = Texture()
         if material == .none {
             let img = UIImage(named: "grid")
             mat.diffuse.contents = img
@@ -41,13 +41,22 @@ class Plane: SCNNode {
             mat = Texture(material)
         }
         planeGeometry.materials = [mat]
-    
+        physicsBody?.restitution = CGFloat(mat.restitution)
+        
         setTextureScale()
         self.addChildNode(planeNode)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setMaterial(_ material: MaterialType) {
+        let texture = Texture(material)
+        planeGeometry?.materials = [texture]
+        physicsBody?.mass = CGFloat(volume() * texture.mass)
+        physicsBody?.restitution = CGFloat(texture.restitution)
+        setTextureScale()
     }
 }
 
