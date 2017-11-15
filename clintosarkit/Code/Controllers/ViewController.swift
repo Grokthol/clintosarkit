@@ -20,7 +20,6 @@ class ViewController: UIViewController {
     var bottomPlane: SCNNode!
     var settings: Settings = Settings()
     var sessionConfiguration: ARWorldTrackingConfiguration = ARWorldTrackingConfiguration()
-    @IBOutlet weak var forceSlider: UISlider!
     
     // material selection variables
     let materialOptions = [MaterialType.none, MaterialType.copper, MaterialType.iron,
@@ -54,14 +53,11 @@ class ViewController: UIViewController {
         if settings.enableDefaultLighting, let _ = lightNode.light {
             removeObject(lightNode)
         }
-        
-        sceneView.session.run(sessionConfiguration, options: [.resetTracking, .removeExistingAnchors])
     }
     
     // pause the scene view
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        sceneView.session.pause()
     }
 }
 
@@ -79,6 +75,7 @@ private extension ViewController {
         addGestureRecognizers()
         addBottomPlane()
         addLights()
+        sceneView.session.run(sessionConfiguration)
     }
     
     // adds an object to the scene
@@ -132,9 +129,9 @@ private extension ViewController {
         
         var object: PhysicalObject!
         if type == .box {
-            object = Box(vector, material: selectedObjectMaterial)
+            object = Box(vector, material: selectedObjectMaterial, scale: settings.size)
         } else if type == .sphere {
-            object = Sphere(vector, material: selectedObjectMaterial)
+            object = Sphere(vector, material: selectedObjectMaterial, scale: settings.size)
         }
         objects.insert(object)
         addObject(object)
@@ -171,7 +168,7 @@ private extension ViewController {
             
             // the force on the object
             var force = max(0, (forceDistance - distance))
-            force = force * forceSlider.value
+            force = force * 3 * settings.force
             
             // scale the force in each direction
             distanceVector.x = (distanceVector.x / distance) * force;
@@ -241,7 +238,7 @@ extension ViewController {
     // if a user presses on a location, forces objects away
     @objc func didPress(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
-        if recognizer.state == .ended {
+        if recognizer.state == .began {
             let pressLocation = recognizer.location(in: sceneView)
             let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
             if let hitResult = hitResults.first {
@@ -262,7 +259,7 @@ extension ViewController {
     // if a user presses on a location with two fingers, forces objects towards the location
     @objc func didTwoFingerPress(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
-        if recognizer.state == .ended {
+        if recognizer.state == .began {
             let pressLocation = recognizer.location(in: sceneView)
             let hitResults = sceneView.hitTest(pressLocation, types: .existingPlaneUsingExtent)
             if let hitResult = hitResults.first {

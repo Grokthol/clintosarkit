@@ -12,13 +12,13 @@ import ARKit
 // a sphere that can be added to the scene
 class Sphere: PhysicalObject {
     
-    var radius: Float = 0.05
+    var radius: Float = 0.1
     
-    init(_ vector: SCNVector3, material: MaterialType) {
+    init(_ vector: SCNVector3, material: MaterialType, scale: Float) {
         super.init()
-        geometry = SCNSphere(radius: CGFloat(radius))
+        geometry = SCNSphere(radius: CGFloat(radius * scale))
         position = vector
-        physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: geometry!, options: [:]))
         physicsBody?.contactTestBitMask = 1
         
         type = .sphere

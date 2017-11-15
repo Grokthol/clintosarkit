@@ -97,24 +97,15 @@
                                     <action selector="didSelectPlanesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bbm-hK-NhH"/>
                                 </connections>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="KK5-Oy-1A1">
-                                <rect key="frame" x="21" y="20" width="251" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="29" id="nVE-6w-xUq"/>
-                                </constraints>
-                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vZC-hH-w9s" firstAttribute="leading" secondItem="KK5-Oy-1A1" secondAttribute="trailing" constant="23" id="9qP-Lc-WEx"/>
                             <constraint firstItem="HqA-ZY-255" firstAttribute="top" secondItem="1S3-G1-FbG" secondAttribute="bottom" id="BIw-oX-31e"/>
                             <constraint firstItem="NoU-ug-vgg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CIo-mV-4Mg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HqA-ZY-255" secondAttribute="trailing" constant="16" id="MtK-V1-CZd"/>
                             <constraint firstItem="NoU-ug-vgg" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="TgC-79-3p0"/>
-                            <constraint firstItem="KK5-Oy-1A1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="23" id="VIt-Dh-RP2"/>
                             <constraint firstItem="NoU-ug-vgg" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Wo1-kP-Zze"/>
                             <constraint firstItem="UkJ-hQ-2tA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Yho-QU-irE"/>
-                            <constraint firstItem="KK5-Oy-1A1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ZXT-Rh-Aba"/>
                             <constraint firstItem="vZC-hH-w9s" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="a3p-Hl-kNs"/>
                             <constraint firstItem="UkJ-hQ-2tA" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="cyJ-8b-s63"/>
                             <constraint firstItem="1S3-G1-FbG" firstAttribute="top" secondItem="vZC-hH-w9s" secondAttribute="bottom" id="dUi-dK-TLc"/>
@@ -128,7 +119,6 @@
                     <navigationItem key="navigationItem" id="VTp-ZB-ZbS"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="forceSlider" destination="KK5-Oy-1A1" id="b5C-98-ji9"/>
                         <outlet property="picker" destination="tfH-7B-mUP" id="JFQ-Xu-dwu"/>
                         <outlet property="pickerView" destination="NoU-ug-vgg" id="Wcm-dg-bvj"/>
                         <outlet property="sceneView" destination="UkJ-hQ-2tA" id="fC4-op-KM3"/>
@@ -270,6 +260,74 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Scale" id="3G7-Sl-BAB">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="7C1-am-rOV" userLabel="Force Slider">
+                                        <rect key="frame" x="0.0" y="232" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7C1-am-rOV" id="bu1-Mf-iI0">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Force" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZL-TW-xyx">
+                                                    <rect key="frame" x="16" y="11" width="60" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="Tpl-U1-dSG"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="iQU-j8-2qN">
+                                                    <rect key="frame" x="74" y="7" width="287" height="31"/>
+                                                    <connections>
+                                                        <action selector="sliderChanged:" destination="0G4-Bu-GEI" eventType="valueChanged" id="Oho-Os-DA6"/>
+                                                    </connections>
+                                                </slider>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="YZL-TW-xyx" firstAttribute="leading" secondItem="bu1-Mf-iI0" secondAttribute="leadingMargin" id="0ID-M7-Mrm"/>
+                                                <constraint firstItem="iQU-j8-2qN" firstAttribute="centerY" secondItem="bu1-Mf-iI0" secondAttribute="centerY" id="LMk-6k-af9"/>
+                                                <constraint firstItem="iQU-j8-2qN" firstAttribute="leading" secondItem="YZL-TW-xyx" secondAttribute="trailing" id="V28-kA-4JK"/>
+                                                <constraint firstAttribute="trailing" secondItem="iQU-j8-2qN" secondAttribute="trailing" constant="16" id="VXN-OD-Kcb"/>
+                                                <constraint firstItem="YZL-TW-xyx" firstAttribute="centerY" secondItem="bu1-Mf-iI0" secondAttribute="centerY" id="nI1-uK-tPO"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Lsb-uB-aQg" userLabel="Size Slider">
+                                        <rect key="frame" x="0.0" y="276" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Lsb-uB-aQg" id="1D1-eT-mtN">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lys-Ux-1At">
+                                                    <rect key="frame" x="16" y="11" width="60" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="cah-dX-t2U"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="qgK-xj-CWe">
+                                                    <rect key="frame" x="74" y="7" width="287" height="31"/>
+                                                    <connections>
+                                                        <action selector="sliderChanged:" destination="0G4-Bu-GEI" eventType="valueChanged" id="Q8c-8S-SPp"/>
+                                                    </connections>
+                                                </slider>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qgK-xj-CWe" firstAttribute="leading" secondItem="Lys-Ux-1At" secondAttribute="trailing" id="Awr-1G-I6S"/>
+                                                <constraint firstAttribute="trailing" secondItem="qgK-xj-CWe" secondAttribute="trailing" constant="16" id="Ehf-dZ-67l"/>
+                                                <constraint firstItem="Lys-Ux-1At" firstAttribute="leading" secondItem="1D1-eT-mtN" secondAttribute="leadingMargin" id="TDq-aq-9dn"/>
+                                                <constraint firstItem="qgK-xj-CWe" firstAttribute="centerY" secondItem="1D1-eT-mtN" secondAttribute="centerY" id="rEW-16-G6i"/>
+                                                <constraint firstItem="Lys-Ux-1At" firstAttribute="centerY" secondItem="1D1-eT-mtN" secondAttribute="centerY" id="rrw-rl-eex"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="0G4-Bu-GEI" id="fGc-Gf-Wmc"/>
@@ -284,15 +342,17 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="forceSlider" destination="iQU-j8-2qN" id="TWX-Wg-ORj"/>
                         <outlet property="lightingSwitch" destination="uPz-mM-fGh" id="rDl-qV-HQj"/>
                         <outlet property="originSwitch" destination="Tcf-fk-FQD" id="cHO-5P-LtZ"/>
                         <outlet property="pointSwitch" destination="QvE-Dg-BOY" id="2jO-Rf-AqF"/>
+                        <outlet property="sizeSlider" destination="qgK-xj-CWe" id="GZD-Yw-Sah"/>
                         <outlet property="statisticsSwitch" destination="K3i-kA-euP" id="ll4-4P-S3q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N24-10-ho6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2535" y="133"/>
+            <point key="canvasLocation" x="2533.5999999999999" y="132.68365817091455"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yrg-Uq-o7J">

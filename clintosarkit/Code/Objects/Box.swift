@@ -12,15 +12,15 @@ import ARKit
 // a box that can be added to the scene
 class Box: PhysicalObject {
     
-    var width: Float = 0.1
-    var height: Float = 0.1
-    var length: Float = 0.1
+    var width: Float = 0.2
+    var height: Float = 0.2
+    var length: Float = 0.2
     
-    init(_ vector: SCNVector3, material: MaterialType) {
+    init(_ vector: SCNVector3, material: MaterialType, scale: Float) {
         super.init()
-        geometry = SCNBox(width: CGFloat(width), height: CGFloat(height), length: CGFloat(length), chamferRadius: 0)
+        geometry = SCNBox(width: CGFloat(width * scale), height: CGFloat(height * scale), length: CGFloat(length * scale), chamferRadius: 0)
         position = vector
-        physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: geometry!, options: [:]))
         physicsBody?.contactTestBitMask = 1
         
         type = .box

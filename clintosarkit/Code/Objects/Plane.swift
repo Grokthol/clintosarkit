@@ -15,6 +15,7 @@ class Plane: PhysicalObject {
     var anchor: ARPlaneAnchor!
     var planeGeometry: SCNBox!
     
+    // inits a plans with an anchor and a selected material type
     init(_ anchor: ARPlaneAnchor, material: MaterialType) {
         super.init()
         self.anchor = anchor
@@ -32,30 +33,26 @@ class Plane: PhysicalObject {
         planeNode.transform = SCNMatrix4MakeRotation(-.pi / 2.0, 1.0, 0.0, 0.0)
         planeNode.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: [:]))
         
-        // set the material of the plane
-        var mat = Texture()
-        if material == .none {
-            let img = UIImage(named: "grid")
-            mat.diffuse.contents = img
-        } else {
-            mat = Texture(material)
-        }
-        planeGeometry.materials = [mat]
-        physicsBody?.restitution = CGFloat(mat.restitution)
-        
-        setTextureScale()
         self.addChildNode(planeNode)
+        setMaterial(material)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // sets the material on the plane
     override func setMaterial(_ material: MaterialType) {
         let texture = Texture(material)
+        if material == .none {
+            let img = UIImage(named: "grid")
+            texture.diffuse.contents = img
+        }
         planeGeometry?.materials = [texture]
-        physicsBody?.mass = CGFloat(volume() * texture.mass)
-        physicsBody?.restitution = CGFloat(texture.restitution)
+        if let childNode = childNodes.first {
+            childNode.physicsBody?.mass = CGFloat(volume() * texture.mass)
+            childNode.physicsBody?.restitution = CGFloat(texture.restitution)
+        }
         setTextureScale()
     }
 }

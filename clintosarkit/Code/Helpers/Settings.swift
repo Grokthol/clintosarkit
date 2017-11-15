@@ -13,4 +13,6 @@ class Settings {
     var displayFeaturePoints: Bool = false
     var displayStatistics: Bool = false
     var enableDefaultLighting: Bool = false
+    var size: Float = 0.5
+    var force: Float = 0.5
 }
