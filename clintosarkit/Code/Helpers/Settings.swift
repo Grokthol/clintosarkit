@@ -6,7 +6,7 @@
 //  Copyright © 2017 Clinton. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class Settings {
     var displayWorldOrigin: Bool = false
@@ -18,4 +18,5 @@ class Settings {
     var planeMaterial: MaterialType = .none
     var enableDefaultLighting: Bool = true
     var enableDynamicLighting: Bool = false
+    var lightColor: UIColor = UIColor.white
 }

@@ -342,6 +342,38 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="UiD-xU-rH6" userLabel="Color">
+                                        <rect key="frame" x="0.0" y="648" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UiD-xU-rH6" id="wBD-15-ucw">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="color_stripes" translatesAutoresizingMaskIntoConstraints="NO" id="n1e-Vb-Hzg" userLabel="Color Range">
+                                                    <rect key="frame" x="16" y="7" width="343" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="1im-fa-hdn"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="14" minValue="0.0" maxValue="14" translatesAutoresizingMaskIntoConstraints="NO" id="hY6-lq-9qa" customClass="ColorSlider" customModule="clintosarkit" customModuleProvider="target">
+                                                    <rect key="frame" x="14" y="7" width="347" height="31"/>
+                                                    <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <action selector="sliderChanged:" destination="0G4-Bu-GEI" eventType="valueChanged" id="sao-hd-mmC"/>
+                                                    </connections>
+                                                </slider>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="n1e-Vb-Hzg" secondAttribute="trailing" constant="16" id="5qE-on-aAY"/>
+                                                <constraint firstItem="hY6-lq-9qa" firstAttribute="leading" secondItem="wBD-15-ucw" secondAttribute="leading" constant="16" id="CFb-iO-NNz"/>
+                                                <constraint firstAttribute="trailing" secondItem="hY6-lq-9qa" secondAttribute="trailing" constant="16" id="U4s-oQ-fsj"/>
+                                                <constraint firstItem="n1e-Vb-Hzg" firstAttribute="centerY" secondItem="wBD-15-ucw" secondAttribute="centerY" id="W8Y-a9-lMl"/>
+                                                <constraint firstItem="n1e-Vb-Hzg" firstAttribute="leading" secondItem="wBD-15-ucw" secondAttribute="leading" constant="16" id="qEC-fS-bZs"/>
+                                                <constraint firstItem="hY6-lq-9qa" firstAttribute="centerY" secondItem="wBD-15-ucw" secondAttribute="centerY" id="z0A-zg-A0K"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -359,6 +391,7 @@
                     </navigationItem>
                     <size key="freeformSize" width="375" height="900"/>
                     <connections>
+                        <outlet property="colorSlider" destination="hY6-lq-9qa" id="2qJ-Wp-XRL"/>
                         <outlet property="defaultLightingSwitch" destination="OhO-AV-RWw" id="vEb-Zc-8gV"/>
                         <outlet property="dynamicLightingLabel" destination="Wy0-hQ-waM" id="OKh-11-udO"/>
                         <outlet property="dynamicLightingSwitch" destination="Gme-zj-BnM" id="p9e-JM-iRR"/>
@@ -373,7 +406,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N24-10-ho6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2533.5999999999999" y="132.68365817091455"/>
+            <point key="canvasLocation" x="2533.5999999999999" y="132.23388305847078"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yrg-Uq-o7J">
@@ -411,4 +444,7 @@
             <point key="canvasLocation" x="1730" y="133"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="color_stripes" width="350" height="25"/>
+    </resources>
 </document>

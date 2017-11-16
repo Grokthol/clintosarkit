@@ -17,6 +17,8 @@
 		AB39FE741FB9E60D00CB6F9C /* clintosarkitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39FE731FB9E60D00CB6F9C /* clintosarkitUITests.swift */; };
 		AB39FE8A1FBA174900CB6F9C /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39FE891FBA174900CB6F9C /* Plane.swift */; };
 		AB39FE8E1FBA288500CB6F9C /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39FE8D1FBA288500CB6F9C /* Box.swift */; };
+		AB56F3FE1FBE0C64007BDC29 /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56F3FD1FBE0C64007BDC29 /* ColorSlider.swift */; };
+		AB56F4011FBE1136007BDC29 /* UIColor+Hack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56F4001FBE1136007BDC29 /* UIColor+Hack.swift */; };
 		AB61CF951FBB423100DD8001 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB61CF941FBB423100DD8001 /* OptionsViewController.swift */; };
 		AB61CF971FBB5C7500DD8001 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB61CF961FBB5C7500DD8001 /* Settings.swift */; };
 		AB8206EF1FBCC7EC0092833D /* PhysicalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8206EE1FBCC7EC0092833D /* PhysicalObject.swift */; };
@@ -85,6 +87,8 @@
 		AB39FE751FB9E60D00CB6F9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB39FE891FBA174900CB6F9C /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		AB39FE8D1FBA288500CB6F9C /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		AB56F3FD1FBE0C64007BDC29 /* ColorSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
+		AB56F4001FBE1136007BDC29 /* UIColor+Hack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hack.swift"; sourceTree = "<group>"; };
 		AB61CF941FBB423100DD8001 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		AB61CF961FBB5C7500DD8001 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		AB8206EE1FBCC7EC0092833D /* PhysicalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalObject.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 			children = (
 				AB61CF961FBB5C7500DD8001 /* Settings.swift */,
 				ABCAF2131FBC8C7400C8917F /* Texture.swift */,
+				AB56F3FD1FBE0C64007BDC29 /* ColorSlider.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -215,6 +220,7 @@
 		AB39FE821FB9E65600CB6F9C /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				AB56F3FF1FBE1122007BDC29 /* Extensions */,
 				AB247B0A1FBCA24900B8957D /* Helpers */,
 				ABCAF1E31FBBA2A000C8917F /* Enums */,
 				ABCAF1E21FBBA29400C8917F /* Controllers */,
@@ -222,6 +228,14 @@
 				AB39FE531FB9E60C00CB6F9C /* AppDelegate.swift */,
 			);
 			path = Code;
+			sourceTree = "<group>";
+		};
+		AB56F3FF1FBE1122007BDC29 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AB56F4001FBE1136007BDC29 /* UIColor+Hack.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		ABCAF1E01FBBA27B00C8917F /* Objects */ = {
@@ -492,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB56F3FE1FBE0C64007BDC29 /* ColorSlider.swift in Sources */,
 				ABCAF1F71FBC888100C8917F /* MaterialType.swift in Sources */,
 				AB39FE561FB9E60C00CB6F9C /* ViewController.swift in Sources */,
 				AB39FE8A1FBA174900CB6F9C /* Plane.swift in Sources */,
@@ -502,6 +517,7 @@
 				ABCAF1E51FBBA33700C8917F /* Sphere.swift in Sources */,
 				ABCAF1E91FBBA71700C8917F /* ForceType.swift in Sources */,
 				ABCAF1E71FBBA45D00C8917F /* PhysicalObjectType.swift in Sources */,
+				AB56F4011FBE1136007BDC29 /* UIColor+Hack.swift in Sources */,
 				AB8206EF1FBCC7EC0092833D /* PhysicalObject.swift in Sources */,
 				AB247B091FBC991400B8957D /* PickerMode.swift in Sources */,
 				AB39FE541FB9E60C00CB6F9C /* AppDelegate.swift in Sources */,

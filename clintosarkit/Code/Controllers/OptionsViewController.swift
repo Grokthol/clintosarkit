@@ -35,6 +35,7 @@ class OptionsViewController: UITableViewController {
     @IBOutlet weak var planePicker: UIPickerView!
     @IBOutlet weak var defaultLightingSwitch: UISwitch!
     @IBOutlet weak var dynamicLightingSwitch: UISwitch!
+    @IBOutlet weak var colorSlider: ColorSlider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,8 @@ class OptionsViewController: UITableViewController {
             dynamicLightingSwitch.isEnabled = !defaultLightingSwitch.isOn
             dynamicLightingLabel.isEnabled = dynamicLightingSwitch.isEnabled
             dynamicLightingSwitch.isOn = settings.enableDynamicLighting
+            colorSlider.isEnabled = !defaultLightingSwitch.isOn
+            colorSlider.value = colorSlider.valueForColor(settings.lightColor)
         }
     }
 }
@@ -87,6 +90,14 @@ extension OptionsViewController {
                 dynamicLightingSwitch.setOn(false, animated: true)
                 toggled(dynamicLightingSwitch)
             }
+            
+            // toggles the light color depending on the value of the default switch
+            colorSlider.isEnabled = !defaultLightingSwitch.isOn
+            if defaultLightingSwitch.isOn {
+                colorSlider.value = colorSlider.valueForColor(UIColor.white)
+                settings?.lightColor = UIColor.white
+            }
+            
         } else if sender.isEqual(dynamicLightingSwitch) {
             settings?.enableDynamicLighting = dynamicLightingSwitch.isOn
         }
@@ -99,6 +110,8 @@ extension OptionsViewController {
             settings?.force = sender.value
         } else if sender.isEqual(sizeSlider) {
             settings?.size = sender.value
+        } else if sender.isEqual(colorSlider) {
+            settings?.lightColor = colorSlider.colorForValue(colorSlider.value)
         }
         delegate?.modifiedSettings(settings)
     }

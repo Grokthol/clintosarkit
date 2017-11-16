@@ -105,6 +105,7 @@ private extension ViewController {
     func addLights() {
         let light = SCNLight()
         light.type = .omni
+        light.color = settings.lightColor
         lightNode = SCNNode()
         lightNode.light = light
         lightNode.position = SCNVector3(0,0,0)
@@ -365,6 +366,11 @@ extension ViewController: OptionsDelegate {
             // if the plane material was changed, change all of the existing material as well.
             for plane in planes.values {
                 plane.setMaterial(settings.planeMaterial)
+            }
+            
+            // if the light color was changed... do tht
+            if let light = lightNode.light {
+                light.color = settings.lightColor
             }
         }
     }
