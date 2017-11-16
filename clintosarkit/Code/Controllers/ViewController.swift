@@ -21,16 +21,6 @@ class ViewController: UIViewController {
     var settings: Settings = Settings()
     var sessionConfiguration: ARWorldTrackingConfiguration = ARWorldTrackingConfiguration()
     
-    // material selection variables
-    let materialOptions = [MaterialType.none, MaterialType.copper, MaterialType.iron,
-                           MaterialType.limestone, MaterialType.sandstone, MaterialType.rubber,
-                           MaterialType.plastic]
-    var selectedObjectMaterial: MaterialType = .none
-    var selectedPlaneMaterial: MaterialType = .none
-    var pickerMode: PickerMode = .object
-    @IBOutlet weak var picker: UIPickerView!
-    @IBOutlet weak var pickerView: UIView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeScene()
@@ -47,11 +37,20 @@ class ViewController: UIViewController {
             sceneView.debugOptions = ARSCNDebugOptions.showWorldOrigin
         } else if settings.displayFeaturePoints {
             sceneView.debugOptions = ARSCNDebugOptions.showFeaturePoints
+        } else {
+            sceneView.debugOptions = []
         }
         sceneView.showsStatistics = settings.displayStatistics
         sceneView.autoenablesDefaultLighting = settings.enableDefaultLighting
-        if settings.enableDefaultLighting, let _ = lightNode.light {
-            removeObject(lightNode)
+    
+        if settings.enableDefaultLighting {
+            if let _ = lightNode.light, sceneView.scene.rootNode.childNodes.contains(lightNode) {
+                removeObject(lightNode)
+            }
+        } else if !settings.enableDefaultLighting {
+            if let _ = lightNode.light, !sceneView.scene.rootNode.childNodes.contains(lightNode) {
+                addObject(lightNode)
+            }
         }
     }
     
@@ -129,9 +128,9 @@ private extension ViewController {
         
         var object: PhysicalObject!
         if type == .box {
-            object = Box(vector, material: selectedObjectMaterial, scale: settings.size)
+            object = Box(vector, material: settings.objectMaterial, scale: settings.size)
         } else if type == .sphere {
-            object = Sphere(vector, material: selectedObjectMaterial, scale: settings.size)
+            object = Sphere(vector, material: settings.objectMaterial, scale: settings.size)
         }
         objects.insert(object)
         addObject(object)
@@ -276,7 +275,7 @@ extension ViewController : ARSCNViewDelegate {
     // this is called every time ARK kit detects a new plane
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if let planeAnchor = anchor as? ARPlaneAnchor {
-            let plane = Plane(planeAnchor, material: selectedPlaneMaterial)
+            let plane = Plane(planeAnchor, material: settings.planeMaterial)
             node.addChildNode(plane)
             planes[planeAnchor.identifier] = plane
         }
@@ -351,25 +350,6 @@ extension ViewController {
     @IBAction func didSelectOptionsButton(_ sender: Any) {
         performSegue(withIdentifier: "optionsSegue", sender: self)
     }
-    
-    // when the objects button is selected, display the material selection menu
-    @IBAction func didSelectObjectsButton(_ sender: Any) {
-        pickerMode = .object
-        picker.selectRow(materialOptions.index(of: selectedObjectMaterial) ?? 0, inComponent: 0, animated: false)
-        pickerView.isHidden = false
-    }
-    
-    // when the planes button is selected, display the material selection menu
-    @IBAction func didSelectPlanesButton(_ sender: Any) {
-        pickerMode = .plane
-        picker.selectRow(materialOptions.index(of: selectedPlaneMaterial) ?? 0, inComponent: 0, animated: false)
-        pickerView.isHidden = false
-    }
-    
-    // when the picker done button is selected, hides the picker view
-    @IBAction func pickerDoneButtonSelected(_ sender: Any) {
-        pickerView.isHidden = true
-    }
 }
 
 
@@ -381,36 +361,10 @@ extension ViewController: OptionsDelegate {
     func modifiedSettings(_ settings: Settings?) {
         if let settings = settings {
             self.settings = settings
-        }
-    }
-}
-
-
-// MARK: - Picker Delegate Methods
-extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return materialOptions.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return materialOptions[row].rawValue
-    }
-    
-    // when the picker selects a material, sets the appropriate material
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerMode == .object {
-            selectedObjectMaterial = materialOptions[row]
-        } else if pickerMode == .plane {
-            selectedPlaneMaterial = materialOptions[row]
             
-            // if the plane material was changed, change all of the existing material as well
+            // if the plane material was changed, change all of the existing material as well.
             for plane in planes.values {
-                plane.setMaterial(selectedPlaneMaterial)
+                plane.setMaterial(settings.planeMaterial)
             }
         }
     }

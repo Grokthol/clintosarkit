@@ -28,90 +28,21 @@
                                     <constraint firstAttribute="height" constant="30" id="7UK-a9-DAx"/>
                                     <constraint firstAttribute="width" constant="66" id="Ebe-7E-Aw3"/>
                                 </constraints>
-                                <state key="normal" title="Options">
+                                <state key="normal" title="OPTIONS">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="didSelectOptionsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vbi-uD-Lcf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1S3-G1-FbG">
-                                <rect key="frame" x="293" y="50" width="66" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="aOI-sl-VWw"/>
-                                    <constraint firstAttribute="width" constant="66" id="tnt-ui-z52"/>
-                                </constraints>
-                                <state key="normal" title="Objects">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didSelectObjectsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KLb-Fp-gfi"/>
-                                </connections>
-                            </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NoU-ug-vgg">
-                                <rect key="frame" x="0.0" y="461" width="375" height="206"/>
-                                <subviews>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tfH-7B-mUP">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="162"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="162" id="lhb-xH-Imf"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="WGj-h1-jkb"/>
-                                            <outlet property="delegate" destination="BYZ-38-t0r" id="E22-1c-5X3"/>
-                                        </connections>
-                                    </pickerView>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1P1-cc-PgP">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                        <items>
-                                            <barButtonItem systemItem="done" id="06z-9Y-oCs">
-                                                <connections>
-                                                    <action selector="pickerDoneButtonSelected:" destination="BYZ-38-t0r" id="aMw-FR-hW9"/>
-                                                </connections>
-                                            </barButtonItem>
-                                        </items>
-                                    </toolbar>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="1P1-cc-PgP" firstAttribute="leading" secondItem="NoU-ug-vgg" secondAttribute="leading" id="0Ed-ni-Bms"/>
-                                    <constraint firstAttribute="bottom" secondItem="tfH-7B-mUP" secondAttribute="bottom" id="0ST-D2-wjK"/>
-                                    <constraint firstItem="1P1-cc-PgP" firstAttribute="top" secondItem="NoU-ug-vgg" secondAttribute="top" id="CxK-eE-kme"/>
-                                    <constraint firstAttribute="trailing" secondItem="tfH-7B-mUP" secondAttribute="trailing" id="Kph-ZS-Vfw"/>
-                                    <constraint firstItem="tfH-7B-mUP" firstAttribute="leading" secondItem="NoU-ug-vgg" secondAttribute="leading" id="POc-tj-bBy"/>
-                                    <constraint firstItem="tfH-7B-mUP" firstAttribute="top" secondItem="1P1-cc-PgP" secondAttribute="bottom" id="WFg-f8-Bmk"/>
-                                    <constraint firstAttribute="trailing" secondItem="1P1-cc-PgP" secondAttribute="trailing" id="y2U-8Y-R5h"/>
-                                </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HqA-ZY-255">
-                                <rect key="frame" x="293" y="80" width="66" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="bOF-PC-ZN6"/>
-                                    <constraint firstAttribute="width" constant="66" id="h7a-0S-scK"/>
-                                </constraints>
-                                <state key="normal" title="Planes">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didSelectPlanesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bbm-hK-NhH"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="HqA-ZY-255" firstAttribute="top" secondItem="1S3-G1-FbG" secondAttribute="bottom" id="BIw-oX-31e"/>
-                            <constraint firstItem="NoU-ug-vgg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CIo-mV-4Mg"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HqA-ZY-255" secondAttribute="trailing" constant="16" id="MtK-V1-CZd"/>
-                            <constraint firstItem="NoU-ug-vgg" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="TgC-79-3p0"/>
-                            <constraint firstItem="NoU-ug-vgg" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Wo1-kP-Zze"/>
                             <constraint firstItem="UkJ-hQ-2tA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Yho-QU-irE"/>
                             <constraint firstItem="vZC-hH-w9s" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="a3p-Hl-kNs"/>
                             <constraint firstItem="UkJ-hQ-2tA" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="cyJ-8b-s63"/>
-                            <constraint firstItem="1S3-G1-FbG" firstAttribute="top" secondItem="vZC-hH-w9s" secondAttribute="bottom" id="dUi-dK-TLc"/>
                             <constraint firstItem="UkJ-hQ-2tA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="h8W-IN-i5f"/>
                             <constraint firstItem="UkJ-hQ-2tA" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="n7O-9g-Her"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1S3-G1-FbG" secondAttribute="trailing" constant="16" id="rJJ-AJ-FfU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vZC-hH-w9s" secondAttribute="trailing" constant="16" id="zKl-TN-Zhs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -119,8 +50,6 @@
                     <navigationItem key="navigationItem" id="VTp-ZB-ZbS"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="picker" destination="tfH-7B-mUP" id="JFQ-Xu-dwu"/>
-                        <outlet property="pickerView" destination="NoU-ug-vgg" id="Wcm-dg-bvj"/>
                         <outlet property="sceneView" destination="UkJ-hQ-2tA" id="fC4-op-KM3"/>
                         <segue destination="7VB-pY-dBv" kind="popoverPresentation" identifier="optionsSegue" popoverAnchorView="vZC-hH-w9s" id="3e1-M1-xQV">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -328,6 +257,60 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Object Material" id="U9j-ct-f3W">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="1h6-J4-fjf" userLabel="object picker">
+                                        <rect key="frame" x="0.0" y="348" width="375" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1h6-J4-fjf" id="g3V-Qp-Moa">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8b-Mc-kVh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="0G4-Bu-GEI" id="AN6-FU-HgG"/>
+                                                        <outlet property="delegate" destination="0G4-Bu-GEI" id="wag-Lu-Hgn"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="P8b-Mc-kVh" secondAttribute="bottom" id="7m7-Z9-icI"/>
+                                                <constraint firstItem="P8b-Mc-kVh" firstAttribute="top" secondItem="g3V-Qp-Moa" secondAttribute="top" id="BSm-7Y-jgZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="P8b-Mc-kVh" secondAttribute="trailing" id="nhG-mS-hU6"/>
+                                                <constraint firstItem="P8b-Mc-kVh" firstAttribute="leading" secondItem="g3V-Qp-Moa" secondAttribute="leading" id="oE0-dQ-OnG"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Plane Material" id="fZs-Xo-1o6">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="gQ4-KF-yp5" userLabel="plane picker">
+                                        <rect key="frame" x="0.0" y="476" width="375" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gQ4-KF-yp5" id="hdC-aW-bfG">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cb3-4h-9hj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="0G4-Bu-GEI" id="M2d-tX-B6X"/>
+                                                        <outlet property="delegate" destination="0G4-Bu-GEI" id="8Rb-a1-l4o"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Cb3-4h-9hj" secondAttribute="bottom" id="baP-xq-XdW"/>
+                                                <constraint firstAttribute="trailing" secondItem="Cb3-4h-9hj" secondAttribute="trailing" id="eFm-sc-8Ko"/>
+                                                <constraint firstItem="Cb3-4h-9hj" firstAttribute="leading" secondItem="hdC-aW-bfG" secondAttribute="leading" id="hJP-RW-QKf"/>
+                                                <constraint firstItem="Cb3-4h-9hj" firstAttribute="top" secondItem="hdC-aW-bfG" secondAttribute="top" id="jJu-Uf-CVH"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="0G4-Bu-GEI" id="fGc-Gf-Wmc"/>
@@ -341,10 +324,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="forceSlider" destination="iQU-j8-2qN" id="TWX-Wg-ORj"/>
                         <outlet property="lightingSwitch" destination="uPz-mM-fGh" id="rDl-qV-HQj"/>
+                        <outlet property="objectPicker" destination="P8b-Mc-kVh" id="693-Jr-16Y"/>
                         <outlet property="originSwitch" destination="Tcf-fk-FQD" id="cHO-5P-LtZ"/>
+                        <outlet property="planePicker" destination="Cb3-4h-9hj" id="r9E-Dc-HOp"/>
                         <outlet property="pointSwitch" destination="QvE-Dg-BOY" id="2jO-Rf-AqF"/>
                         <outlet property="sizeSlider" destination="qgK-xj-CWe" id="GZD-Yw-Sah"/>
                         <outlet property="statisticsSwitch" destination="K3i-kA-euP" id="ll4-4P-S3q"/>
