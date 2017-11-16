@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     // initialize the configuration for the scene view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         // uses the settings object to update the scene settings
         if settings.displayWorldOrigin && settings.displayFeaturePoints {
             sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
@@ -54,9 +54,9 @@ class ViewController: UIViewController {
         }
     }
     
-    // pause the scene view
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    // white status bar
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 
@@ -306,7 +306,7 @@ extension ViewController : ARSCNViewDelegate {
     // updates the light of the scene based on dynamic light changes
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if let light = sceneView.session.currentFrame?.lightEstimate, let _ = lightNode.light {
-            lightNode.light?.intensity = light.ambientIntensity
+            lightNode.light?.intensity = settings.enableDynamicLighting ? light.ambientIntensity : 1000.0
         }
     }
 }

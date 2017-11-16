@@ -24,26 +24,42 @@ class OptionsViewController: UITableViewController {
                            MaterialType.limestone, MaterialType.sandstone, MaterialType.rubber,
                            MaterialType.plastic]
     
+    @IBOutlet weak var dynamicLightingLabel: UILabel!
+    
     @IBOutlet weak var originSwitch: UISwitch!
     @IBOutlet weak var pointSwitch: UISwitch!
     @IBOutlet weak var statisticsSwitch: UISwitch!
-    @IBOutlet weak var lightingSwitch: UISwitch!
     @IBOutlet weak var forceSlider: UISlider!
     @IBOutlet weak var sizeSlider: UISlider!
     @IBOutlet weak var objectPicker: UIPickerView!
     @IBOutlet weak var planePicker: UIPickerView!
+    @IBOutlet weak var defaultLightingSwitch: UISwitch!
+    @IBOutlet weak var dynamicLightingSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // initializes the view to match the settings
         if let settings = settings {
+            
+            // debug
             originSwitch.isOn = settings.displayWorldOrigin
             pointSwitch.isOn = settings.displayFeaturePoints
             statisticsSwitch.isOn = settings.displayStatistics
-            lightingSwitch.isOn = settings.enableDefaultLighting
+            
+            // sliders
             forceSlider.value = settings.force
             sizeSlider.value = settings.size
+            
+            // material pickers
+            objectPicker.selectRow(materialOptions.index(of: settings.objectMaterial) ?? 0, inComponent: 0, animated: false)
+            planePicker.selectRow(materialOptions.index(of: settings.planeMaterial) ?? 0, inComponent: 0, animated: false)
+            
+            // lighting
+            defaultLightingSwitch.isOn = settings.enableDefaultLighting
+            dynamicLightingSwitch.isEnabled = !defaultLightingSwitch.isOn
+            dynamicLightingLabel.isEnabled = dynamicLightingSwitch.isEnabled
+            dynamicLightingSwitch.isOn = settings.enableDynamicLighting
         }
     }
 }
@@ -61,8 +77,18 @@ extension OptionsViewController {
             settings?.displayFeaturePoints = pointSwitch.isOn
         } else if sender.isEqual(statisticsSwitch) {
             settings?.displayStatistics = statisticsSwitch.isOn
-        } else if sender.isEqual(lightingSwitch) {
-            settings?.enableDefaultLighting = lightingSwitch.isOn
+        } else if sender.isEqual(defaultLightingSwitch) {
+            settings?.enableDefaultLighting = defaultLightingSwitch.isOn
+            
+            // toggles the dynamic switch depending on the value of the default switch
+            dynamicLightingSwitch.isEnabled = !defaultLightingSwitch.isOn
+            dynamicLightingLabel.isEnabled = dynamicLightingSwitch.isEnabled
+            if dynamicLightingSwitch.isOn {
+                dynamicLightingSwitch.setOn(false, animated: true)
+                toggled(dynamicLightingSwitch)
+            }
+        } else if sender.isEqual(dynamicLightingSwitch) {
+            settings?.enableDynamicLighting = dynamicLightingSwitch.isOn
         }
         delegate?.modifiedSettings(settings)
     }
