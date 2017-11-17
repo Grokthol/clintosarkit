@@ -168,7 +168,7 @@ private extension ViewController {
             
             // the force on the object
             var force = max(0, (forceDistance - distance))
-            force = force * 8 * settings.force
+            force = force * 20 * settings.force
             
             // scale the force in each direction
             distanceVector.x = (distanceVector.x / distance) * force;
